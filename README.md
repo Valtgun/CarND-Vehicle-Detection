@@ -43,7 +43,7 @@ Example windows for the size and top vertical position:</br>
  
 ## Improvements to the classifier
 After implementing first version of the classifier, it has been updated with following items:</br>
-There were too few positive detections, overlap was increased from TODO to TODO percentage.</br>
+There were too few positive detections, overlap was increased from 50% to 75% percentage in vertical direction.</br>
 Performance was very slow, whole image HOG processing was implemented, but as HOG is not scale invariant it required multiple calculations for different sliding windows, that did not provide significant performance gains.</br>
 Mainly due to the 2nd item, it was decided to implement heatmaps using this sub-optimal parameters and performance and afterwards change this to different classifier (Neural networks).</br>
 Benefit of using sub-optimal detection parameters is that better tuning can be done for heatmap processing, because if there are only few false positives or non-detected frames, then it is not enough data to clean-up with heatmaps.</br>
@@ -68,14 +68,14 @@ Due to slow performance I checked the alternatives for the vehicle detection and
 While looking for YOLO python usage, I found that member of Udacity previous cohort has done great job transferring and describing YOLO tiny model for our purpose.</br>
 I used the implementation “https://github.com/xslittlegrass/CarND-Vehicle-Detection” to test how well the YOLO architecture could perform for such task.</br>
 YOLO detects center pixels of the object as well as its height and width. It also predicts class probability and in this case if it is car class above threshold then it is treated as positive detection.</br>
-[YOLO detection only without aggregating](https://youtu.be/Mbuymi-Wd4g)</br>
+#### [YOLO detection only without aggregating](https://youtu.be/Mbuymi-Wd4g)</br>
 This give very good results, but detection frames are quite jitter'y and also there is one place with false positive detection.
 
 Therefore, I did not feed YOLO results directly to output as it is done by “github.com/xslittlegrass”, but used it to feed heatmap calculation, essentially just replacing Sliding Windows search with HOG+Color detection and instead using YOLO implementation for that.</br>
 The predicted windows above threshold is then combined and threshold to give smoother output. It required smaller number of frames and lower threshold values then HOG detection.</br>
 
-*** Final submission video is using YOLO + Heatmap thresholding and it is here:</br>
-[YOLO detection with aggregation](https://youtu.be/YKQIL3Gi8Rs)
+### Final submission video is using YOLO + Heatmap thresholding and it is here:</br>
+### [YOLO detection with aggregation](https://youtu.be/YKQIL3Gi8Rs)
 
  
 ## Discussion
